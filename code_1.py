@@ -1,4 +1,6 @@
 from collections import defaultdict
+import ast
+
 with open('names.txt', 'r') as f:
     names = f.readlines()
     names = [name.strip() for name in names]
@@ -35,3 +37,15 @@ with open('pair_freqs_raw.txt', 'w') as f:
         f.write(f"({pair}, {number})\n")
     for pair, number in pairlist[1].items():
         f.write(f"({pair}, {number})\n")
+
+def chosenletterpairs(letter, pairs):
+    print(pairs)
+    chosenpairs = [pair for pair in pairs if pair[0][0] == letter]
+    return chosenpairs
+
+with open('pair_freqs_raw.txt', 'r') as file:
+        pairlist = [ast.literal_eval(line.strip()) for line in file.readlines()]
+chosenletter = input("Pick thy letter: ")
+resultingpairs = chosenletterpairs(chosenletter, pairlist)
+for pair in resultingpairs:
+    print(pair)
