@@ -9,3 +9,10 @@ def countshortlongnames(names):
     return number, shortest, longest
 
 print(countshortlongnames(names))
+name = input("Name: ")
+def letterpairs(name):
+    pairs = []
+    for e in range(len(name) - 1):
+        pairs.append([name[e], name[e+1]])
+    print(pairs)
+letterpairs(name)
