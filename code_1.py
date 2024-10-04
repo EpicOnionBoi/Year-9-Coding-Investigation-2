@@ -1,5 +1,6 @@
 from collections import defaultdict
 import ast
+import random
 
 with open('names.txt', 'r') as f:
     names = f.readlines()
@@ -27,8 +28,8 @@ def countpairs(names):
             noendpairs[pair] += 1
         startendpairs[(name[-1], '$')] += 1
     return noendpairs, startendpairs
-
 pairlist = countpairs(names)
+
 with open('pair_freqs_raw.txt', 'w') as f:
     for pair, number in pairlist[0].items():
         f.write(f"({pair}, {number})\n")
@@ -51,8 +52,16 @@ elif option == "1":
 elif option == "2":
     name = input("Name: ")
     letterpairs(name)
-elif option == "3":
+#elif option == "3":
+
+elif option == "4":
     chosenletter = input("Pick thy letter: ")
     resultingpairs = chosenletterpairs(chosenletter, pairlist)
     for pair in resultingpairs:
         print(pair)
+elif option == "5":
+    coin = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+    print(random.choice(coin))
+elif option == "6":
+    spinner = [0, 0, 1, 2, 3, 3, 3, 3, 3, 3]
+    print(random.choice(spinner))
