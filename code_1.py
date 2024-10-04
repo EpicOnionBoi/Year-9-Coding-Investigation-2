@@ -49,3 +49,6 @@ chosenletter = input("Pick thy letter: ")
 resultingpairs = chosenletterpairs(chosenletter, pairlist)
 for pair in resultingpairs:
     print(pair)
+
+print("Welcome to the Tiny Language Model\nUse the menu below to use the Tiny Language Model\n(1) Basic statistics (number of names, shortest, longest, etc)\n(3) Display pairs starting with a particular character\n(4) Flip the coin and demonstrate correctness\n(6) Generate _ new names starting with letter _\n(7) Generate _ random names\n(8) Demonstrate the result of an untrained character-pair freq. table\n(9) Evaluate a name against the model by printing its pair probabilities")
+option = input("Enter 1 to 9, or 0 to quit: ")
