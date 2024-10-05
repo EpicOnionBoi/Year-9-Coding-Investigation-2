@@ -45,7 +45,7 @@ with open('pair_freqs_raw.txt', 'r') as file:
 
 def randomchoice(thing):
     results = defaultdict(int)
-    for e in range(100):
+    for e in range(1000):
         result = random.choice(thing)
         results[result]+=1
     return results
@@ -69,14 +69,14 @@ elif option == "4":
 elif option == "5":
     coin = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
     print(f"The coin toss result is {random.choice(coin)}")
-    print("Here are the results after repeating this 100 times:")
+    print("Here are the results after repeating this 1000 times:")
     results = randomchoice(coin)
     for choice, count in results.items():
         print(f"{choice}: {count} times")
 elif option == "6":
     spinner = [0, 0, 1, 2, 3, 3, 3, 3, 3, 3]
     print(f"The spinner result is {random.choice(spinner)}")
-    print("Here are the results after repeating this 100 times:")
+    print("Here are the results after repeating this 1000 times:")
     results = randomchoice(spinner)
     for choice, count in results.items():
         print(f"{choice}: {count} times")
