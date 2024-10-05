@@ -68,13 +68,15 @@ elif option == "4":
         print(pair)
 elif option == "5":
     coin = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
-    print(random.choice(coin))
+    print(f"The coin toss result is {random.choice(coin)}")
+    print("Here are the results after repeating this 100 times:")
     results = randomchoice(coin)
     for choice, count in results.items():
         print(f"{choice}: {count} times")
 elif option == "6":
     spinner = [0, 0, 1, 2, 3, 3, 3, 3, 3, 3]
-    print(random.choice(spinner))
+    print(f"The spinner result is {random.choice(spinner)}")
+    print("Here are the results after repeating this 100 times:")
     results = randomchoice(spinner)
     for choice, count in results.items():
         print(f"{choice}: {count} times")
