@@ -69,8 +69,12 @@ elif option == "4":
 elif option == "5":
     coin = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
     print(random.choice(coin))
-    print(randomchoice(coin))
+    results = randomchoice(coin)
+    for choice, count in results.items():
+        print(f"{choice}: {count} times")
 elif option == "6":
     spinner = [0, 0, 1, 2, 3, 3, 3, 3, 3, 3]
     print(random.choice(spinner))
-    print(randomchoice(spinner))
+    results = randomchoice(spinner)
+    for choice, count in results.items():
+        print(f"{choice}: {count} times")
