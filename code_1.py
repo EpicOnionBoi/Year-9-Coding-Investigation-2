@@ -1,6 +1,7 @@
 from collections import defaultdict
 import ast
 import random
+import matplotlib.pyplot as plt
 
 with open('names.txt', 'r') as f:
     names = f.readlines()
@@ -43,6 +44,20 @@ def chosenletterpairs(letter, pairs):
 with open('pair_freqs_raw.txt', 'r') as file:
         pairlist = [ast.literal_eval(line.strip()) for line in file.readlines()]
 
+with open('pair_freqs_raw.txt', 'r') as file:
+    pairs_freqs = [ast.literal_eval(line.strip()) for line in file]
+pairs_freqs_sorted = sorted(pairs_freqs, key=lambda x: x[1], reverse=True)[:50]
+letter_pairs = [f"{pair[0][0]}{pair[0][1]}" for pair in pairs_freqs_sorted]
+frequencies = [pair[1] for pair in pairs_freqs_sorted]
+plt.figure(figsize=(10, 6))
+plt.bar(letter_pairs, frequencies, color='skyblue')
+plt.xlabel('Letter Pairs')
+plt.ylabel('Frequencies')
+plt.title('Top 50 Most Frequent Letter Pairs')
+plt.xticks(rotation=90)
+plt.tight_layout()
+plt.savefig('graph.png')
+
 def randomchoice(thing):
     results = defaultdict(int)
     for e in range(1000):
@@ -50,7 +65,7 @@ def randomchoice(thing):
         results[result]+=1
     return results
 
-print("Welcome to the Tiny Language Model\nUse the menu below to use the Tiny Language Model\n(1) Basic statistics (number of names, shortest, longest, etc)\n(2) Split a name into letter pairs\n(3) Display the first _ lines of the sorted pairs frequency table\n(4) Display pairs starting with a particular character\n(5) Flip the coin and demonstrate correctness\n(6) Spin the numbered wheel and demonstrate correctness\n(7) Generate _ new names starting with letter _\n(8) Generate _ random names\n(9) Demonstrate the result of an untrained character-pair freq. table\n(10) Evaluate a name against the model by printing its pair probabilities")
+print("Welcome to the Tiny Language Model\nUse the menu below to use the Tiny Language Model\n(1) Basic statistics (number of names, shortest, longest, etc)\n(2) Split a name into letter pairs\n(3) Display a bar graph of the top 50 most frequent letter pairs in the name file\n(4) Display pairs starting with a particular character\n(5) Flip the coin and demonstrate correctness\n(6) Spin the numbered wheel and demonstrate correctness\n(7) Generate _ new names starting with letter _\n(8) Generate _ random names\n(9) Demonstrate the result of an untrained character-pair freq. table\n(10) Evaluate a name against the model by printing its pair probabilities")
 option = input("Enter 1 to 10, or 0 to quit: ")
 if option == "0":
     quit()
