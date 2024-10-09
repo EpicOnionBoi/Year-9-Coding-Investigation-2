@@ -70,7 +70,7 @@ option = input("Enter 1 to 10, or 0 to quit: ")
 if option == "0":
     quit()
 elif option == "1":
-    print(countshortlongnames(names))
+    print(f"The number of names, shortest names, and longest names are: {countshortlongnames(names)}, respectively.")
 elif option == "2":
     name = input("Name: ")
     letterpairs(name)
