@@ -75,7 +75,17 @@ elif option == "2":
     name = input("Name: ")
     letterpairs(name)
 elif option == "3":
-
+    with open('pair_freqs_raw.txt', 'r') as file:
+        lines = file.readlines()
+        data = []
+        for line in lines:
+            pair, frequency = ast.literal_eval(line.strip())
+            data.append((pair, frequency))
+        datasorted = sorted(data, key=lambda x: x[1], reverse=True)
+        linenumbers = int(input("Enter the number of lines to display: "))
+        for e in range(min(linenumbers, len(datasorted))):
+            letterpair = ''.join(datasorted[e][0])
+            print(f"{letterpair} {datasorted[e][1]}")
 elif option == "4":
     chosenletter = input("Pick thy letter: ")
     resultingpairs = chosenletterpairs(chosenletter, pairlist)
