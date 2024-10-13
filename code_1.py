@@ -86,14 +86,14 @@ def randompair(pairsfile, startcharacter=None, secondcharacter=None):
         chosenpair = random.choices(data, weights=frequencies, k=1)[0]
     return chosenpair
 
-def generatename(pairsfile, user_second_letter=None):
-    if user_second_letter:
-        currentpair = randompair(pairsfile, start_char='#', second_char=user_second_letter)
+def generatename(pairsfile, usersecondletter=None):
+    if usersecondletter:
+        currentpair = randompair(pairsfile, startcharacter='#', secondcharacter=usersecondletter)
     else:
-        currentpair = randompair(pairsfile, start_char='#')
+        currentpair = randompair(pairsfile, startcharacter='#')
     generatedname = currentpair[1]
     while currentpair[1] != '$':
-        currentpair = randompair(pairsfile, start_char=currentpair[1])
+        currentpair = randompair(pairsfile, startcharacter=currentpair[1])
         if currentpair[1] != '$':
             generatedname += currentpair[1]
     return generatedname
@@ -139,5 +139,10 @@ elif option == "6":
 elif option == "7":
     startcharacter = (input("Enter character that the pair should start with: ")).lower()
     print(randompair('pair_freqs_raw.txt', startcharacter=startcharacter))
+elif option == "8":
+    startcharacter = (input("Enter character that the pair(s) should start with: ")).lower()
+    namenumber = int(input("Enter the number of names to generate: "))
+    for e in range(namenumber):
+        print(generatename('pair_freqs_raw.txt', usersecondletter=startcharacter))
 else:
     quit()
