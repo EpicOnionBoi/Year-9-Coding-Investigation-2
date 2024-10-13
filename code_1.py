@@ -65,7 +65,7 @@ def randomchoice(thing):
         results[result]+=1
     return results
 
-def randompair(pairsfile, startcharacter=None, secondcharacter=None):
+def randompair(pairsfile, startcharacter=None, secondcharacter=None, untrained=False):
     with open(pairsfile, 'r') as file:
         lines = file.readlines()
     data = []
@@ -74,26 +74,28 @@ def randompair(pairsfile, startcharacter=None, secondcharacter=None):
         pair, frequency = ast.literal_eval(line.strip())
         data.append(pair)
         frequencies.append(frequency)
+    if untrained:
+        frequencies = [1] * len(frequencies)
     if startcharacter:
         if secondcharacter:
-            filtereddata = [pair for pair in data if pair[0] == startcharacter and pair[1] == secondcharacter]
-            filteredfrequencies = [frequencies[i] for i, pair in enumerate(data) if pair[0] == startcharacter and pair[1] == secondcharacter]
+            filtered_data = [pair for pair in data if pair[0] == startcharacter and pair[1] == secondcharacter]
+            filtered_frequencies = [frequencies[i] for i, pair in enumerate(data) if pair[0] == startcharacter and pair[1] == secondcharacter]
         else:
-            filtereddata = [pair for pair in data if pair[0] == startcharacter]
-            filteredfrequencies = [frequencies[i] for i, pair in enumerate(data) if pair[0] == startcharacter]
-        chosenpair = random.choices(filtereddata, weights=filteredfrequencies, k=1)[0]
+            filtered_data = [pair for pair in data if pair[0] == startcharacter]
+            filtered_frequencies = [frequencies[i] for i, pair in enumerate(data) if pair[0] == startcharacter]
+        chosenpair = random.choices(filtered_data, weights=filtered_frequencies, k=1)[0]
     else:
         chosenpair = random.choices(data, weights=frequencies, k=1)[0]
     return chosenpair
 
-def generatename(pairsfile, usersecondletter=None):
+def generatename(pairsfile, usersecondletter=None, untrained=False):
     if usersecondletter:
-        currentpair = randompair(pairsfile, startcharacter='#', secondcharacter=usersecondletter)
+        currentpair = randompair(pairsfile, startcharacter='#', secondcharacter=usersecondletter, untrained=untrained)
     else:
-        currentpair = randompair(pairsfile, startcharacter='#')
+        currentpair = randompair(pairsfile, startcharacter='#', untrained=untrained)
     generatedname = currentpair[1]
     while currentpair[1] != '$':
-        currentpair = randompair(pairsfile, startcharacter=currentpair[1])
+        currentpair = randompair(pairsfile, startcharacter=currentpair[1], untrained=untrained)
         if currentpair[1] != '$':
             generatedname += currentpair[1]
     return generatedname
@@ -148,5 +150,9 @@ elif option == "9":
     namenumber = int(input("Enter the number of names to generate: "))
     for e in range(namenumber):
         print(generatename('pair_freqs_raw.txt'))
+elif option == "10":
+    namenumber = int(input("Enter the number of names to generate: "))
+    for e in range(namenumber):
+        print(generatename('pair_freqs_raw.txt', untrained=True))
 else:
     quit()
