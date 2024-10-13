@@ -137,6 +137,7 @@ elif option == "6":
     for choice, count in results.items():
         print(f"{choice}: {count} times")
 elif option == "7":
-
+    startcharacter = (input("Enter character that the pair should start with: ")).lower()
+    print(randompair('pair_freqs_raw.txt', startcharacter=startcharacter))
 else:
     quit()
