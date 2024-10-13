@@ -144,5 +144,9 @@ elif option == "8":
     namenumber = int(input("Enter the number of names to generate: "))
     for e in range(namenumber):
         print(generatename('pair_freqs_raw.txt', usersecondletter=startcharacter))
+elif option == "9":
+    namenumber = int(input("Enter the number of names to generate: "))
+    for e in range(namenumber):
+        print(generatename('pair_freqs_raw.txt'))
 else:
     quit()
