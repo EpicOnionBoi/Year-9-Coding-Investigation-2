@@ -16,10 +16,11 @@ def countshortlongnames(names):
     return number, shortestnames, longestnames
 
 def letterpairs(name):
+    namestartend = '#' + name + '$'
     pairs = []
-    for e in range(len(name) - 1):
-        pairs.append([name[e], name[e+1]])
-    print(pairs)
+    for e in range(len(namestartend) - 1):
+        pairs.append((namestartend[e], namestartend[e + 1]))
+    return pairs
 
 def countpairs(names):
     noendpairs = defaultdict(int)
@@ -102,13 +103,29 @@ def generatename(pairsfile, usersecondletter=None, untrained=False):
             generatedname += currentpair[1]
     return generatedname
 
+def calculatepairprobability(pair, freq_file):
+    totalcount = 0
+    specificpaircount = 0
+    with open(freq_file, 'r') as file:
+        lines = file.readlines()
+        for line in lines:
+            pair_data, frequency = ast.literal_eval(line.strip())
+            totalcount += frequency
+            if pair_data == pair:
+                specificpaircount = frequency
+    if totalcount > 0:
+        probability = specificpaircount / totalcount
+        return probability
+    else:
+        return 0.0
+
 print("Welcome to the Tiny Language Model\nUse the menu below to use the Tiny Language Model\n(1) Basic statistics (number of names, shortest, longest, etc)\n(2) Split a name into letter pairs\n(3) Display the first _ lines of the sorted pairs frequency table\n(4) Display pairs starting with a particular character\n(5) Flip the coin and demonstrate correctness\n(6) Spin the numbered wheel and demonstrate correctness\n(7) Print a pair of letters starting with a specific character with probability relative to frequency\n(8) Generate _ new names starting with letter _\n(9) Generate _ random names\n(10) Demonstrate the result of an untrained character-pair freq. table\n(11) Evaluate a name against the model by printing its pair probabilities")
 option = input("Enter 1 to 10, or anything else to quit: ")
 if option == "1":
     print(f"The number of names, shortest names, and longest names are: {countshortlongnames(names)}, respectively.")
 elif option == "2":
     name = input("Name: ")
-    letterpairs(name)
+    print(letterpairs(name))
 elif option == "3":
     with open('pair_freqs_raw.txt', 'r') as file:
         lines = file.readlines()
@@ -144,7 +161,7 @@ elif option == "7":
     startcharacter = (input("Enter character that the pair should start with: ")).lower()
     print(randompair('pair_freqs_raw.txt', startcharacter=startcharacter))
 elif option == "8":
-    startcharacter = (input("Enter character that the pair(s) should start with: ")).lower()
+    startcharacter = (input("Enter character that the name(s) should start with: ")).lower()
     namenumber = int(input("Enter the number of names to generate: "))
     for e in range(namenumber):
         print(generatename('pair_freqs_raw.txt', usersecondletter=startcharacter))
@@ -156,5 +173,14 @@ elif option == "10":
     namenumber = int(input("Enter the number of names to generate: "))
     for e in range(namenumber):
         print(generatename('pair_freqs_raw.txt', untrained=True))
+elif option == "11":
+    name = input("Name: ")
+    pairs = letterpairs(name)
+    pair_probabilities = {}
+    for pair in pairs:
+        probability = calculatepairprobability(pair, 'pair_freqs_raw.txt')
+        pair_probabilities[pair] = probability
+    for pair, prob in pair_probabilities.items():
+        print(f"Probability of the letter pair {pair} occurring: {prob:.4f}")
 else:
     quit()
