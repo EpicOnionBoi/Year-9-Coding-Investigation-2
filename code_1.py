@@ -9,9 +9,11 @@ with open('names.txt', 'r') as f:
 
 def countshortlongnames(names):
     number = len(names)
-    shortest = min(names, key=len)
-    longest = max(names, key=len)
-    return number, shortest, longest
+    minlength = min(len(name) for name in names)
+    maxlength = max(len(name) for name in names)
+    shortestnames = [name for name in names if len(name) == minlength]
+    longestnames = [name for name in names if len(name) == maxlength]
+    return number, shortestnames, longestnames
 
 def letterpairs(name):
     pairs = []
