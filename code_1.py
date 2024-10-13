@@ -65,11 +65,30 @@ def randomchoice(thing):
         results[result]+=1
     return results
 
-print("Welcome to the Tiny Language Model\nUse the menu below to use the Tiny Language Model\n(1) Basic statistics (number of names, shortest, longest, etc)\n(2) Split a name into letter pairs\n(3) Display the first _ lines of the sorted pairs frequency table\n(4) Display pairs starting with a particular character\n(5) Flip the coin and demonstrate correctness\n(6) Spin the numbered wheel and demonstrate correctness\n(7) Generate _ new names starting with letter _\n(8) Generate _ random names\n(9) Demonstrate the result of an untrained character-pair freq. table\n(10) Evaluate a name against the model by printing its pair probabilities")
-option = input("Enter 1 to 10, or 0 to quit: ")
-if option == "0":
-    quit()
-elif option == "1":
+def randompair(pairsfile, start_char=None, second_char=None):
+    with open(pairsfile, 'r') as file:
+        lines = file.readlines()
+    data = []
+    frequencies = []
+    for line in lines:
+        pair, frequency = ast.literal_eval(line.strip())
+        data.append(pair)
+        frequencies.append(frequency)
+    if start_char:
+        if second_char:
+            filtered_data = [pair for pair in data if pair[0] == start_char and pair[1] == second_char]
+            filtered_frequencies = [frequencies[i] for i, pair in enumerate(data) if pair[0] == start_char and pair[1] == second_char]
+        else:
+            filtered_data = [pair for pair in data if pair[0] == start_char]
+            filtered_frequencies = [frequencies[i] for i, pair in enumerate(data) if pair[0] == start_char]
+        chosenpair = random.choices(filtered_data, weights=filtered_frequencies, k=1)[0]
+    else:
+        chosenpair = random.choices(data, weights=frequencies, k=1)[0]
+    return chosenpair
+
+print("Welcome to the Tiny Language Model\nUse the menu below to use the Tiny Language Model\n(1) Basic statistics (number of names, shortest, longest, etc)\n(2) Split a name into letter pairs\n(3) Display the first _ lines of the sorted pairs frequency table\n(4) Display pairs starting with a particular character\n(5) Flip the coin and demonstrate correctness\n(6) Spin the numbered wheel and demonstrate correctness\n(7) Print a pair of letters starting with a specific character with probability relative to frequency\n(8) Generate _ new names starting with letter _\n(9) Generate _ random names\n(10) Demonstrate the result of an untrained character-pair freq. table\n(11) Evaluate a name against the model by printing its pair probabilities")
+option = input("Enter 1 to 10, or anything else to quit: ")
+if option == "1":
     print(f"The number of names, shortest names, and longest names are: {countshortlongnames(names)}, respectively.")
 elif option == "2":
     name = input("Name: ")
@@ -105,3 +124,7 @@ elif option == "6":
     results = randomchoice(spinner)
     for choice, count in results.items():
         print(f"{choice}: {count} times")
+elif option == "7":
+
+else:
+    quit()
