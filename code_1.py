@@ -66,25 +66,25 @@ def chosenletterpairs(letter, pairs):
 with open('pair_freqs_raw.txt', 'r') as file:
         pairlist = [ast.literal_eval(line.strip()) for line in file.readlines()]
 
-with open('pair_freqs_raw.txt', 'r') as file:
-    pairs_freqs = [ast.literal_eval(line.strip()) for line in file]
-pairs_freqs_sorted = sorted(pairs_freqs, key=lambda x: x[1], reverse=True)[:50]
-letter_pairs = [f"{pair[0][0]}{pair[0][1]}" for pair in pairs_freqs_sorted]
-frequencies = [pair[1] for pair in pairs_freqs_sorted]
+# Plot the top 50 most frequent letter pairs
+pairs_freqs_sorted = sorted(pairlist, key=lambda x: x[1], reverse=True)[:50]  # Get top 50 frequent pairs
+letter_pairs = [f"{pair[0][0]}{pair[0][1]}" for pair in pairs_freqs_sorted]  # Extract letter pairs
+frequencies = [pair[1] for pair in pairs_freqs_sorted]  # Extract frequencies
 plt.figure(figsize=(10, 6))
-plt.bar(letter_pairs, frequencies, color='skyblue')
-plt.xlabel('Letter Pairs')
-plt.ylabel('Frequencies')
-plt.title('Top 50 Most Frequent Letter Pairs')
-plt.xticks(rotation=90)
+plt.bar(letter_pairs, frequencies, color='skyblue')  # Create a bar chart of letter pairs
+plt.xlabel('Letter Pairs')  # X-axis label
+plt.ylabel('Frequencies')  # Y-axis label
+plt.title('Top 50 Most Frequent Letter Pairs')  # Title of the plot
+plt.xticks(rotation=90)  # Rotate x-axis labels for readability
 plt.tight_layout()
-plt.savefig('graph.png')
+plt.savefig('graph.png')  # Save the graph to a file
 
+# Function to simulate random choices and count results
 def randomchoice(thing):
-    results = defaultdict(int)
-    for e in range(1000):
-        result = random.choice(thing)
-        results[result]+=1
+    results = defaultdict(int)  # Dictionary to store results
+    for e in range(1000):  # Simulate 1000 random choices
+        result = random.choice(thing)  # Randomly choose from the input list
+        results[result] += 1  # Increment count for the chosen item
     return results
 
 def randompair(pairsfile, startcharacter=None, secondcharacter=None, untrained=False):
