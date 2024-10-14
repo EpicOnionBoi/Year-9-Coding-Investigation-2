@@ -127,17 +127,14 @@ def calculatepairprobability(pair, freq_file):
     totalcount = 0
     specificpaircount = 0
     with open(freq_file, 'r') as file:
-        lines = file.readlines()
+        lines = file.readlines()  # Read lines from the frequency file
         for line in lines:
-            pair_data, frequency = ast.literal_eval(line.strip())
-            totalcount += frequency
-            if pair_data == pair:
-                specificpaircount = frequency
-    if totalcount > 0:
-        probability = specificpaircount / totalcount
-        return probability
-    else:
-        return 0.0
+            pair_data, frequency = ast.literal_eval(line.strip())  # Safely evaluate each line
+            totalcount += frequency  # Sum the frequencies
+            if pair_data == pair:  # Check if the current pair matches the specified pair
+                specificpaircount = frequency  # Get the frequency of the specific pair
+    probability = specificpaircount / totalcount if totalcount > 0 else 0.0  # Calculate probability
+    return probability  # Return the calculated probability
 
 print("Welcome to the Tiny Language Model\nUse the menu below to use the Tiny Language Model\n(1) Basic statistics (number of names, shortest, longest, etc)\n(2) Split a name into letter pairs\n(3) Display the first _ lines of the sorted pairs frequency table\n(4) Display pairs starting with a particular character\n(5) Flip the coin and demonstrate correctness\n(6) Spin the numbered wheel and demonstrate correctness\n(7) Print a pair of letters starting with a specific character with probability relative to frequency\n(8) Generate _ new names starting with letter _\n(9) Generate _ random names\n(10) Demonstrate the result of an untrained character-pair freq. table\n(11) Evaluate a name against the model by printing its pair probabilities")
 option = input("Enter 1 to 10, or anything else to quit: ")
