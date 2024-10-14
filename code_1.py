@@ -136,68 +136,95 @@ def calculatepairprobability(pair, freq_file):
     probability = specificpaircount / totalcount if totalcount > 0 else 0.0  # Calculate probability
     return probability  # Return the calculated probability
 
+# Print the welcome message and menu options for the user
 print("Welcome to the Tiny Language Model\nUse the menu below to use the Tiny Language Model\n(1) Basic statistics (number of names, shortest, longest, etc)\n(2) Split a name into letter pairs\n(3) Display the first _ lines of the sorted pairs frequency table\n(4) Display pairs starting with a particular character\n(5) Flip the coin and demonstrate correctness\n(6) Spin the numbered wheel and demonstrate correctness\n(7) Print a pair of letters starting with a specific character with probability relative to frequency\n(8) Generate _ new names starting with letter _\n(9) Generate _ random names\n(10) Demonstrate the result of an untrained character-pair freq. table\n(11) Evaluate a name against the model by printing its pair probabilities")
+
+# Prompt the user to enter an option
 option = input("Enter 1 to 10, or anything else to quit: ")
+
+# Option 1: Display basic statistics about names
 if option == "1":
     print(f"The number of names, shortest names, and longest names are: {countshortlongnames(names)}, respectively.")
+
+# Option 2: Split a user-provided name into letter pairs
 elif option == "2":
-    name = input("Name: ")
-    print(letterpairs(name))
+    name = input("Name: ")  # Prompt for a name
+    print(letterpairs(name))  # Display the letter pairs of the name
+
+# Option 3: Display sorted pairs frequency from a file
 elif option == "3":
-    with open('pair_freqs_raw.txt', 'r') as file:
-        lines = file.readlines()
-        data = []
-        for line in lines:
-            pair, frequency = ast.literal_eval(line.strip())
-            data.append((pair, frequency))
-        datasorted = sorted(data, key=lambda x: x[1], reverse=True)
-        linenumbers = int(input("Enter the number of lines to display: "))
-        for e in range(min(linenumbers, len(datasorted))):
-            letterpair = ''.join(datasorted[e][0])
-            print(f"{letterpair} {datasorted[e][1]}")
+    with open('pair_freqs_raw.txt', 'r') as file:  # Open the frequency file for reading
+        lines = file.readlines()  # Read all lines from the file
+        data = []  # Initialize an empty list to store pairs and frequencies
+        for line in lines:  # Loop through each line in the file
+            pair, frequency = ast.literal_eval(line.strip())  # Safely evaluate the line
+            data.append((pair, frequency))  # Add the pair and frequency to the list
+        datasorted = sorted(data, key=lambda x: x[1], reverse=True)  # Sort data by frequency in descending order
+        linenumbers = int(input("Enter the number of lines to display: "))  # Prompt for number of lines to display
+        for e in range(min(linenumbers, len(datasorted))):  # Loop through the sorted data
+            letterpair = ''.join(datasorted[e][0])  # Join the pair into a string
+            print(f"{letterpair} {datasorted[e][1]}")  # Print the letter pair and its frequency
+
+# Option 4: Display pairs starting with a specific character
 elif option == "4":
-    chosenletter = input("Pick thy letter: ")
-    resultingpairs = chosenletterpairs(chosenletter, pairlist)
-    for pair in resultingpairs:
-        print(pair)
+    chosenletter = input("Pick thy letter: ")  # Prompt for a starting letter
+    resultingpairs = chosenletterpairs(chosenletter, pairlist)  # Get pairs starting with the chosen letter
+    for pair in resultingpairs:  # Loop through the resulting pairs
+        print(pair)  # Print each pair
+
+# Option 5: Simulate a coin flip and show results
 elif option == "5":
-    coin = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
-    print(f"The coin toss result is {random.choice(coin)}")
-    print("Here are the results after repeating this 1000 times:")
-    results = randomchoice(coin)
-    for choice, count in results.items():
-        print(f"{choice}: {count} times")
+    coin = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1]  # Define coin states (0=tails, 1=heads)
+    print(f"The coin toss result is {random.choice(coin)}")  # Print the result of a random coin flip
+    print("Here are the results after repeating this 1000 times:")  # Message for results
+    results = randomchoice(coin)  # Get results of 1000 coin flips
+    for choice, count in results.items():  # Loop through the results
+        print(f"{choice}: {count} times")  # Print the count for each coin side
+
+# Option 6: Simulate a spinner and show results
 elif option == "6":
-    spinner = [0, 0, 1, 2, 3, 3, 3, 3, 3, 3]
-    print(f"The spinner result is {random.choice(spinner)}")
-    print("Here are the results after repeating this 1000 times:")
-    results = randomchoice(spinner)
-    for choice, count in results.items():
-        print(f"{choice}: {count} times")
+    spinner = [0, 0, 1, 2, 3, 3, 3, 3, 3, 3]  # Define spinner outcomes
+    print(f"The spinner result is {random.choice(spinner)}")  # Print the result of a random spinner spin
+    print("Here are the results after repeating this 1000 times:")  # Message for results
+    results = randomchoice(spinner)  # Get results of 1000 spinner spins
+    for choice, count in results.items():  # Loop through the results
+        print(f"{choice}: {count} times")  # Print the count for each outcome
+
+# Option 7: Print a random pair starting with a specific character
 elif option == "7":
-    startcharacter = (input("Enter character that the pair should start with: ")).lower()
-    print(randompair('pair_freqs_raw.txt', startcharacter=startcharacter))
+    startcharacter = (input("Enter character that the pair should start with: ")).lower()  # Prompt for starting character
+    print(randompair('pair_freqs_raw.txt', startcharacter=startcharacter))  # Print a random pair starting with that character
+
+# Option 8: Generate new names starting with a specific letter
 elif option == "8":
-    startcharacter = (input("Enter character that the name(s) should start with: ")).lower()
-    namenumber = int(input("Enter the number of names to generate: "))
-    for e in range(namenumber):
-        print(generatename('pair_freqs_raw.txt', usersecondletter=startcharacter))
+    startcharacter = (input("Enter character that the name(s) should start with: ")).lower()  # Prompt for starting letter
+    namenumber = int(input("Enter the number of names to generate: "))  # Prompt for number of names to generate
+    for e in range(namenumber):  # Loop for the number of names
+        print(generatename('pair_freqs_raw.txt', usersecondletter=startcharacter))  # Generate and print each name
+
+# Option 9: Generate random names without specific starting letter
 elif option == "9":
-    namenumber = int(input("Enter the number of names to generate: "))
-    for e in range(namenumber):
-        print(generatename('pair_freqs_raw.txt'))
+    namenumber = int(input("Enter the number of names to generate: "))  # Prompt for number of names to generate
+    for e in range(namenumber):  # Loop for the number of names
+        print(generatename('pair_freqs_raw.txt'))  # Generate and print each random name
+
+# Option 10: Generate names using untrained frequencies
 elif option == "10":
-    namenumber = int(input("Enter the number of names to generate: "))
-    for e in range(namenumber):
-        print(generatename('pair_freqs_raw.txt', untrained=True))
+    namenumber = int(input("Enter the number of names to generate: "))  # Prompt for number of names to generate
+    for e in range(namenumber):  # Loop for the number of names
+        print(generatename('pair_freqs_raw.txt', untrained=True))  # Generate and print each untrained name
+
+# Option 11: Evaluate a name against the model's pair probabilities
 elif option == "11":
-    name = input("Name: ")
-    pairs = letterpairs(name)
-    pair_probabilities = {}
-    for pair in pairs:
-        probability = calculatepairprobability(pair, 'pair_freqs_raw.txt')
-        pair_probabilities[pair] = probability
-    for pair, prob in pair_probabilities.items():
-        print(f"Probability of the letter pair {pair} occurring: {prob:.4f}")
+    name = input("Name: ")  # Prompt for a name
+    pairs = letterpairs(name)  # Get the letter pairs of the name
+    pair_probabilities = {}  # Initialize a dictionary for pair probabilities
+    for pair in pairs:  # Loop through each letter pair
+        probability = calculatepairprobability(pair, 'pair_freqs_raw.txt')  # Calculate the probability of the pair
+        pair_probabilities[pair] = probability  # Store the probability in the dictionary
+    for pair, prob in pair_probabilities.items():  # Loop through the probabilities
+        print(f"Probability of the letter pair {pair} occurring: {prob:.4f}")  # Print each pair's probability
+
+# If the input doesn't match any options, quit the program
 else:
-    quit()
+    quit()  # Exit the program
