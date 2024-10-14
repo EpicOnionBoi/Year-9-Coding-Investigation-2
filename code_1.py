@@ -8,18 +8,20 @@ with open('names.txt', 'r') as f:
     names = f.readlines()  # Read all lines from the file
     names = [name.strip() for name in names]  # Strip whitespace from each name
 
+# Function to count names and identify shortest/longest names
 def countshortlongnames(names):
-    number = len(names)
-    minlength = min(len(name) for name in names)
-    maxlength = max(len(name) for name in names)
-    shortestnames = [name for name in names if len(name) == minlength]
-    longestnames = [name for name in names if len(name) == maxlength]
-    return number, shortestnames, longestnames
+    number = len(names)  # Count the total number of names
+    minlength = min(len(name) for name in names)  # Find the shortest name length
+    maxlength = max(len(name) for name in names)  # Find the longest name length
+    shortestnames = [name for name in names if len(name) == minlength]  # List of shortest names
+    longestnames = [name for name in names if len(name) == maxlength]  # List of longest names
+    return number, shortestnames, longestnames  # Return results
 
+# Function to split a name into letter pairs, adding start and end markers
 def letterpairs(name):
-    namestartend = '#' + name + '$'
+    namestartend = '#' + name + '$'  # Add start (#) and end ($) markers to the name
     pairs = []
-    for e in range(len(namestartend) - 1):
+    for e in range(len(namestartend) - 1):  # Loop through the name and create pairs of adjacent letters
         pairs.append((namestartend[e], namestartend[e + 1]))
     return pairs
 
