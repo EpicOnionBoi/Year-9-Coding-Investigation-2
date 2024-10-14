@@ -40,6 +40,16 @@ with open('pair_freqs_raw.txt', 'w') as f:
     for pair, number in pairlist[1].items():
         f.write(f"({pair}, {number})\n")
 
+pairs = []
+with open('pair_freqs_raw.txt', 'r') as file:
+    for line in file:
+        pair, freq = eval(line.strip())  # Convert line to tuple (pair, freq)
+        pairs.append((pair, freq))
+sorted_pairs = sorted(pairs, key=lambda pair: (pair[0][0], pair[0][1]))
+with open('pair_freqs_sorted.txt', 'w') as file:
+    for pair, freq in sorted_pairs:
+        file.write(f"{pair} {freq}\n")
+
 def chosenletterpairs(letter, pairs):
     chosenpairs = [pair for pair in pairs if pair[0][0] == letter]
     return chosenpairs
