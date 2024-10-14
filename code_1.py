@@ -25,22 +25,24 @@ def letterpairs(name):
         pairs.append((namestartend[e], namestartend[e + 1]))
     return pairs
 
+# Function to count letter pairs across all names
 def countpairs(names):
-    noendpairs = defaultdict(int)
-    startendpairs = defaultdict(int)
+    noendpairs = defaultdict(int)  # Dictionary to count letter pairs excluding start/end markers
+    startendpairs = defaultdict(int)  # Dictionary to count start and end letter pairs
     for name in names:
-        startendpairs[('#', name[0])] += 1
+        startendpairs[('#', name[0])] += 1  # Count the pair for the start of the name
         for e in range(len(name) - 1):
-            pair = (name[e], name[e+1])
-            noendpairs[pair] += 1
-        startendpairs[(name[-1], '$')] += 1
-    return noendpairs, startendpairs
-pairlist = countpairs(names)
+            pair = (name[e], name[e+1])  # Create pairs of adjacent letters
+            noendpairs[pair] += 1  # Count each pair
+        startendpairs[(name[-1], '$')] += 1  # Count the pair for the end of the name
+    return noendpairs, startendpairs  # Return both dictionaries
+pairlist = countpairs(names)  # Get the letter pair counts
 
+# Write the raw pair frequencies to 'pair_freqs_raw.txt'
 with open('pair_freqs_raw.txt', 'w') as f:
-    for pair, number in pairlist[0].items():
+    for pair, number in pairlist[0].items():  # Write non-start/end pairs
         f.write(f"({pair}, {number})\n")
-    for pair, number in pairlist[1].items():
+    for pair, number in pairlist[1].items():  # Write start/end pairs
         f.write(f"({pair}, {number})\n")
 
 pairs = []
