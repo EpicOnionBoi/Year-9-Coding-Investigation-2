@@ -45,18 +45,22 @@ with open('pair_freqs_raw.txt', 'w') as f:
     for pair, number in pairlist[1].items():  # Write start/end pairs
         f.write(f"({pair}, {number})\n")
 
+# Read the raw pair frequencies and sort them alphabetically by letter pairs
 pairs = []
 with open('pair_freqs_raw.txt', 'r') as file:
     for line in file:
-        pair, freq = eval(line.strip())
-        pairs.append((pair, freq))
-sorted_pairs = sorted(pairs, key=lambda pair: (pair[0][0], pair[0][1]))
+        pair, freq = eval(line.strip())  # Safely evaluate each line as a Python expression
+        pairs.append((pair, freq))  # Add pairs to the list
+sorted_pairs = sorted(pairs, key=lambda pair: (pair[0][0], pair[0][1]))  # Sort pairs alphabetically
+
+# Write the sorted pair frequencies to 'pair_freqs_sorted.txt'
 with open('pair_freqs_sorted.txt', 'w') as file:
     for pair, freq in sorted_pairs:
         file.write(f"{pair} {freq}\n")
 
+# Function to get letter pairs starting with a specified letter
 def chosenletterpairs(letter, pairs):
-    chosenpairs = [pair for pair in pairs if pair[0][0] == letter]
+    chosenpairs = [pair for pair in pairs if pair[0][0] == letter]  # Filter pairs starting with the letter
     return chosenpairs
 
 with open('pair_freqs_raw.txt', 'r') as file:
