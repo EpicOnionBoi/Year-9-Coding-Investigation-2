@@ -1,11 +1,12 @@
-from collections import defaultdict
-import ast
-import random
-import matplotlib.pyplot as plt
+from collections import defaultdict  # Import defaultdict for storing counts of letter pairs
+import ast  # Import ast to evaluate strings as Python expressions
+import random  # Import random module for random choices
+import matplotlib.pyplot as plt  # Import matplotlib for plotting graphs
 
+# Read the names from the 'names.txt' file
 with open('names.txt', 'r') as f:
-    names = f.readlines()
-    names = [name.strip() for name in names]
+    names = f.readlines()  # Read all lines from the file
+    names = [name.strip() for name in names]  # Strip whitespace from each name
 
 def countshortlongnames(names):
     number = len(names)
@@ -43,7 +44,7 @@ with open('pair_freqs_raw.txt', 'w') as f:
 pairs = []
 with open('pair_freqs_raw.txt', 'r') as file:
     for line in file:
-        pair, freq = eval(line.strip())  # Convert line to tuple (pair, freq)
+        pair, freq = eval(line.strip())
         pairs.append((pair, freq))
 sorted_pairs = sorted(pairs, key=lambda pair: (pair[0][0], pair[0][1]))
 with open('pair_freqs_sorted.txt', 'w') as file:
