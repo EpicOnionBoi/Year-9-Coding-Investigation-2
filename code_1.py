@@ -89,38 +89,39 @@ def randomchoice(thing):
 
 def randompair(pairsfile, startcharacter=None, secondcharacter=None, untrained=False):
     with open(pairsfile, 'r') as file:
-        lines = file.readlines()
+        lines = file.readlines()  # Read lines from the pair file
     data = []
     frequencies = []
     for line in lines:
-        pair, frequency = ast.literal_eval(line.strip())
-        data.append(pair)
-        frequencies.append(frequency)
+        pair, frequency = ast.literal_eval(line.strip())  # Safely parse each line
+        data.append(pair)  # Store letter pair
+        frequencies.append(frequency)  # Store frequency
     if untrained:
-        frequencies = [1] * len(frequencies)
-    if startcharacter:
-        if secondcharacter:
+        frequencies = [1] * len(frequencies)  # If untrained, treat all frequencies equally
+    if startcharacter:  # Filter by start character if specified
+        if secondcharacter:  # Further filter by second character if specified
             filtered_data = [pair for pair in data if pair[0] == startcharacter and pair[1] == secondcharacter]
             filtered_frequencies = [frequencies[i] for i, pair in enumerate(data) if pair[0] == startcharacter and pair[1] == secondcharacter]
         else:
             filtered_data = [pair for pair in data if pair[0] == startcharacter]
             filtered_frequencies = [frequencies[i] for i, pair in enumerate(data) if pair[0] == startcharacter]
-        chosenpair = random.choices(filtered_data, weights=filtered_frequencies, k=1)[0]
+        chosenpair = random.choices(filtered_data, weights=filtered_frequencies, k=1)[0]  # Choose a pair based on weights
     else:
-        chosenpair = random.choices(data, weights=frequencies, k=1)[0]
+        chosenpair = random.choices(data, weights=frequencies, k=1)[0]  # Choose randomly if no filters
     return chosenpair
 
+# Function to generate a name based on letter pair probabilities
 def generatename(pairsfile, usersecondletter=None, untrained=False):
     if usersecondletter:
         currentpair = randompair(pairsfile, startcharacter='#', secondcharacter=usersecondletter, untrained=untrained)
     else:
         currentpair = randompair(pairsfile, startcharacter='#', untrained=untrained)
-    generatedname = currentpair[1]
-    while currentpair[1] != '$':
+    generatedname = currentpair[1]  # Initialize generated name with the second character of the first pair
+    while currentpair[1] != '$':  # Continue until the end marker '$' is reached
         currentpair = randompair(pairsfile, startcharacter=currentpair[1], untrained=untrained)
-        if currentpair[1] != '$':
+        if currentpair[1] != '$':  # Append the second character of the current pair
             generatedname += currentpair[1]
-    return generatedname
+    return generatedname  # Return the generated name
 
 def calculatepairprobability(pair, freq_file):
     totalcount = 0
